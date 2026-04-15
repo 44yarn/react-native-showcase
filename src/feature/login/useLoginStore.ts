@@ -28,7 +28,7 @@ type LoginActions = {
 }
 
 export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
-  email: '',
+  email: 'demo@example.com',
   password: 'password',
   isPasswordVisible: false,
   error: undefined,
@@ -52,6 +52,7 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
 
   setDemoFailure: () => {
     set({ password: ERROR_PASSWORD })
+    get().submit()
   },
 
   navigateToInfo: () => {

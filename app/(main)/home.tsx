@@ -12,7 +12,7 @@ export default function HomeRoute() {
   useEffect(() => {
     if (effect?.type === 'navigateToLogin') {
       consumeEffect()
-      router.replace('/login')
+      router.replace('/(auth)/login')
     }
   }, [effect, consumeEffect, router])
 

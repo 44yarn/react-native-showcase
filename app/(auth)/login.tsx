@@ -10,10 +10,10 @@ export default function LoginRoute() {
   useEffect(() => {
     if (effect?.type === 'navigateToHome') {
       consumeEffect()
-      router.replace('/home')
+      router.replace('/(main)/home')
     } else if (effect?.type === 'navigateToInfo') {
       consumeEffect()
-      router.push('/info')
+      router.push('/(main)/info')
     }
   }, [effect, consumeEffect, router])
 
