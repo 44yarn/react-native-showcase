@@ -3,14 +3,23 @@ import { PreferenceKey, preferenceStorage } from '@/core/data/preferenceStorage'
 import { useSessionStore } from '@/core/data/useSessionStore'
 import { useDialogPresenter } from '@/core/ui/dialogPresenter'
 import { runWithLoading } from '@/core/ui/indicatorState'
+import { useIndicatorState } from '@/core/ui/indicatorState'
 import { create } from 'zustand'
+
+function computeLoginEnabled(email: string, password: string): boolean {
+  return (
+    email.trim().length > 0 && password.trim().length > 0 && !useIndicatorState.getState().isLoading
+  )
+}
 
 export type LoginEffect = { type: 'navigateToHome' } | { type: 'navigateToInfo' }
 
 type LoginState = {
+  _initialized: boolean
   email: string
   password: string
   isPasswordVisible: boolean
+  isLoginEnabled: boolean
   error: string | undefined
   effect: LoginEffect | undefined
 }
@@ -28,26 +37,34 @@ type LoginActions = {
 }
 
 export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
+  _initialized: false,
   email: 'demo@example.com',
   password: 'password',
   isPasswordVisible: false,
+  isLoginEnabled: true,
   error: undefined,
   effect: undefined,
 
   init: async () => {
+    if (get()._initialized) return
+    set({ _initialized: true })
     const savedEmail = await preferenceStorage.getOrNull<string>(PreferenceKey.Auth.SavedEmail)
     if (savedEmail) {
-      set({ email: savedEmail })
+      set({ email: savedEmail, isLoginEnabled: computeLoginEnabled(savedEmail, get().password) })
     }
   },
 
-  updateEmail: (email) => set({ email }),
-  updatePassword: (password) => set({ password }),
+  updateEmail: (email) =>
+    set({ email, isLoginEnabled: computeLoginEnabled(email, get().password) }),
+  updatePassword: (password) =>
+    set({ password, isLoginEnabled: computeLoginEnabled(get().email, password) }),
   togglePasswordVisibility: () => set((s) => ({ isPasswordVisible: !s.isPasswordVisible })),
 
   setRandomEmail: () => {
-    const random = SAMPLE_EMAILS[Math.floor(Math.random() * SAMPLE_EMAILS.length)]
-    set({ email: random })
+    const current = get().email
+    const candidates = SAMPLE_EMAILS.filter((e) => e !== current)
+    const random = candidates[Math.floor(Math.random() * candidates.length)]
+    set({ email: random, isLoginEnabled: computeLoginEnabled(random, get().password) })
   },
 
   setDemoFailure: async () => {

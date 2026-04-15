@@ -6,6 +6,8 @@ import { create } from 'zustand'
 export type HomeEffect = { type: 'navigateToLogin' }
 
 type HomeState = {
+  _initialized: boolean
+  screenTitle: string
   savedEmail: string | undefined
   isRememberEmail: boolean
   effect: HomeEffect | undefined
@@ -20,22 +22,23 @@ type HomeActions = {
 }
 
 export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
+  _initialized: false,
+  screenTitle: 'Home',
   savedEmail: undefined,
   isRememberEmail: true,
   effect: undefined,
 
   init: async () => {
+    if (get()._initialized) return
+    set({ _initialized: true })
+    const { isGuest } = useSessionStore.getState()
+    set({ screenTitle: isGuest ? 'Guest Home' : 'Home' })
     const savedEmail = await preferenceStorage.getOrNull<string>(PreferenceKey.Auth.SavedEmail)
     const isRememberEmail = await preferenceStorage.getOrDefault(
       PreferenceKey.Auth.RememberEmail,
       true,
     )
     set({ savedEmail: savedEmail ?? undefined, isRememberEmail })
-
-    const { displayName } = useSessionStore.getState()
-    setTimeout(() => {
-      useSnackbarPresenter.getState().show(`Welcome, ${displayName}!`)
-    }, 500)
   },
 
   toggleRememberEmail: async () => {

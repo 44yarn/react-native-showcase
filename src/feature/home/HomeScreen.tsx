@@ -1,5 +1,6 @@
 import { useSessionStore } from '@/core/data/useSessionStore'
 import { SnackbarView } from '@/core/ui/SnackbarView'
+import { useSnackbarPresenter } from '@/core/ui/snackbarPresenter'
 import { AppTheme, useAppColors } from '@/core/ui/theme'
 import { useEffect } from 'react'
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
@@ -8,18 +9,23 @@ import { useHomeStore } from './useHomeStore'
 export function HomeScreen() {
   const colors = useAppColors()
   const displayName = useSessionStore((s) => s.displayName)
-  const isGuest = useSessionStore((s) => s.isGuest)
+  const screenTitle = useHomeStore((s) => s.screenTitle)
   const savedEmail = useHomeStore((s) => s.savedEmail)
   const isRememberEmail = useHomeStore((s) => s.isRememberEmail)
   const init = useHomeStore((s) => s.init)
   const toggleRememberEmail = useHomeStore((s) => s.toggleRememberEmail)
   const logout = useHomeStore((s) => s.logout)
 
-  const screenTitle = isGuest ? 'Guest Home' : 'Home'
-
   useEffect(() => {
     init()
   }, [init])
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      useSnackbarPresenter.getState().show(`Welcome, ${displayName}!`)
+    }, 500)
+    return () => clearTimeout(timer)
+  }, [displayName])
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>

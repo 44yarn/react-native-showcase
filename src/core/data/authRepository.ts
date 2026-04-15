@@ -7,7 +7,6 @@ export type User = {
 }
 
 export const ERROR_PASSWORD = 'error'
-export const CORRECT_PASSWORD = 'password'
 
 export const SAMPLE_EMAILS = [
   'demo@example.com',

@@ -11,31 +11,37 @@ export type DialogResult = 'positive' | 'negative' | 'dismiss'
 
 type DialogStore = {
   dialogState: DialogUiState | undefined
-  _resolve: ((result: DialogResult) => void) | undefined
   requestDialog: (uiState: DialogUiState) => Promise<DialogResult>
   onPositive: () => void
   onNegative: () => void
   onDismiss: () => void
 }
 
-export const useDialogPresenter = create<DialogStore>((set, get) => ({
+let pendingResolve: ((result: DialogResult) => void) | undefined
+
+function resolve(result: DialogResult) {
+  pendingResolve?.(result)
+  pendingResolve = undefined
+}
+
+export const useDialogPresenter = create<DialogStore>((set) => ({
   dialogState: undefined,
-  _resolve: undefined,
   requestDialog: (uiState) => {
-    return new Promise<DialogResult>((resolve) => {
-      set({ dialogState: uiState, _resolve: resolve })
+    return new Promise<DialogResult>((res) => {
+      pendingResolve = res
+      set({ dialogState: uiState })
     })
   },
   onPositive: () => {
-    get()._resolve?.('positive')
-    set({ dialogState: undefined, _resolve: undefined })
+    resolve('positive')
+    set({ dialogState: undefined })
   },
   onNegative: () => {
-    get()._resolve?.('negative')
-    set({ dialogState: undefined, _resolve: undefined })
+    resolve('negative')
+    set({ dialogState: undefined })
   },
   onDismiss: () => {
-    get()._resolve?.('dismiss')
-    set({ dialogState: undefined, _resolve: undefined })
+    resolve('dismiss')
+    set({ dialogState: undefined })
   },
 }))

@@ -26,10 +26,9 @@ export function LoginScreen() {
   const setRandomEmail = useLoginStore((s) => s.setRandomEmail)
   const setDemoFailure = useLoginStore((s) => s.setDemoFailure)
   const navigateToInfo = useLoginStore((s) => s.navigateToInfo)
+  const isLoginEnabled = useLoginStore((s) => s.isLoginEnabled)
   const submit = useLoginStore((s) => s.submit)
   const isLoading = useIndicatorState((s) => s.isLoading)
-
-  const isLoginEnabled = email.trim().length > 0 && password.trim().length > 0 && !isLoading
 
   useEffect(() => {
     init()
