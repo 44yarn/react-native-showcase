@@ -26,6 +26,7 @@ export function LoginScreen() {
   const togglePasswordVisibility = useLoginStore((s) => s.togglePasswordVisibility)
   const setRandomEmail = useLoginStore((s) => s.setRandomEmail)
   const setDemoFailure = useLoginStore((s) => s.setDemoFailure)
+  const cancelLogin = useLoginStore((s) => s.cancelLogin)
   const navigateToInfo = useLoginStore((s) => s.navigateToInfo)
   const isLoginEnabled = useLoginStore((s) => s.isLoginEnabled)
   const submit = useLoginStore((s) => s.submit)
@@ -95,32 +96,50 @@ export function LoginScreen() {
         </Text>
       </TouchableOpacity>
 
-      <View style={styles.secondaryButtons}>
+      <View style={styles.buttonRow}>
         <TouchableOpacity
-          style={styles.secondaryButton}
+          style={[
+            styles.outlinedButton,
+            { borderColor: colors.outline },
+            isLoading && styles.buttonDisabled,
+          ]}
           onPress={setDemoFailure}
           disabled={isLoading}
         >
-          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>
+          <Text style={[styles.outlinedButtonText, { color: colors.primary }]}>
             {t('login.loginFail')}
           </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
-          style={styles.secondaryButton}
-          onPress={navigateToInfo}
-          disabled={isLoading}
+          style={[
+            styles.outlinedButton,
+            { borderColor: colors.outline },
+            !isLoading && styles.buttonDisabled,
+          ]}
+          onPress={cancelLogin}
+          disabled={!isLoading}
         >
-          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>
-            {t('login.information')}
+          <Text style={[styles.outlinedButtonText, { color: colors.primary }]}>
+            {t('login.cancel')}
           </Text>
         </TouchableOpacity>
       </View>
 
+      <TouchableOpacity style={styles.textButton} onPress={navigateToInfo} disabled={isLoading}>
+        <Text
+          style={[
+            styles.textButtonText,
+            { color: colors.primary },
+            isLoading && styles.buttonDisabled,
+          ]}
+        >
+          {t('login.information')}
+        </Text>
+      </TouchableOpacity>
+
       {isLoading && (
-        <View style={[styles.loadingOverlay, { backgroundColor: `${colors.background}B3` }]}>
-          <ActivityIndicator size="large" color={colors.primary} />
-        </View>
+        <ActivityIndicator style={styles.indicator} size="large" color={colors.primary} />
       )}
 
       <ShowcaseAlertDialog />
@@ -176,20 +195,29 @@ const styles = StyleSheet.create({
   primaryButtonText: {
     ...AppTheme.typography.labelLarge,
   },
-  secondaryButtons: {
+  buttonRow: {
     flexDirection: 'row',
-    justifyContent: 'center',
-    gap: AppTheme.spacing.lg,
+    gap: AppTheme.spacing.sm,
+    marginBottom: AppTheme.spacing.sm,
   },
-  secondaryButton: {
-    padding: AppTheme.spacing.sm,
+  outlinedButton: {
+    flex: 1,
+    borderWidth: 1,
+    borderRadius: AppTheme.borderRadius.md,
+    padding: AppTheme.spacing.md,
+    alignItems: 'center',
   },
-  secondaryButtonText: {
+  outlinedButtonText: {
     ...AppTheme.typography.labelLarge,
   },
-  loadingOverlay: {
-    ...StyleSheet.absoluteFillObject,
-    justifyContent: 'center',
+  textButton: {
+    padding: AppTheme.spacing.sm,
     alignItems: 'center',
+  },
+  textButtonText: {
+    ...AppTheme.typography.labelLarge,
+  },
+  indicator: {
+    marginTop: AppTheme.spacing.md,
   },
 })

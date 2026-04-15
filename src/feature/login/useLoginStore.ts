@@ -3,7 +3,6 @@ import { PreferenceKey, preferenceStorage } from '@/core/data/preferenceStorage'
 import { useSessionStore } from '@/core/data/useSessionStore'
 import { t } from '@/core/i18n'
 import { useDialogPresenter } from '@/core/ui/dialogPresenter'
-import { runWithLoading } from '@/core/ui/indicatorState'
 import { useIndicatorState } from '@/core/ui/indicatorState'
 import { create } from 'zustand'
 
@@ -33,10 +32,13 @@ type LoginActions = {
   setRandomEmail: () => void
   setDemoFailure: () => void
   submit: () => Promise<void>
+  cancelLogin: () => void
   navigateToInfo: () => void
   consumeEffect: () => void
   reset: () => void
 }
+
+let abortController: AbortController | undefined
 
 export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
   _initialized: false,
@@ -81,7 +83,9 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
   },
 
   consumeEffect: () => set({ effect: undefined }),
-  reset: () =>
+  reset: () => {
+    abortController?.abort()
+    abortController = undefined
     set({
       _initialized: false,
       email: 'demo@example.com',
@@ -90,13 +94,27 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
       isLoginEnabled: true,
       error: undefined,
       effect: undefined,
-    }),
+    })
+  },
+
+  cancelLogin: () => {
+    abortController?.abort()
+    abortController = undefined
+    useIndicatorState.getState().stopLoading()
+  },
 
   submit: async () => {
     set({ error: undefined })
     const { email, password } = get()
 
-    const result = await runWithLoading(() => authRepository.login(email, password))
+    abortController = new AbortController()
+    const { signal } = abortController
+
+    useIndicatorState.getState().startLoading()
+    const result = await authRepository.login(email, password)
+    useIndicatorState.getState().stopLoading()
+
+    if (signal.aborted) return
 
     if (result.ok) {
       const rememberEmail = await preferenceStorage.getOrDefault(
@@ -120,5 +138,7 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
         set({ effect: { type: 'navigateToHome' } })
       }
     }
+
+    abortController = undefined
   },
 }))
