@@ -37,6 +37,7 @@ export function LoginScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.appTitle, { color: colors.primary }]}>React Native Showcase</Text>
       <Text style={[styles.title, { color: colors.onBackground }]}>Login</Text>
 
       <View style={[styles.inputContainer, { borderColor: colors.outline }]}>
@@ -126,6 +127,11 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: AppTheme.spacing.lg,
+  },
+  appTitle: {
+    ...AppTheme.typography.labelLarge,
+    textAlign: 'center',
+    marginBottom: AppTheme.spacing.xs,
   },
   title: {
     ...AppTheme.typography.headlineLarge,
