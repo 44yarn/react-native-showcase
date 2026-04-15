@@ -23,34 +23,31 @@ export function HomeScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.onBackground }]}>{screenTitle}</Text>
-      <Text style={[styles.welcome, { color: colors.onSurfaceVariant }]}>
-        Hello, {displayName}!
-      </Text>
+      <View style={styles.content}>
+        <Text style={[styles.title, { color: colors.onBackground }]}>{screenTitle}</Text>
 
-      <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.outline }]}>
+        <Text style={[styles.greeting, { color: colors.onBackground }]}>Hello, {displayName}!</Text>
+
+        {savedEmail && (
+          <Text style={[styles.savedEmail, { color: colors.outline }]}>{savedEmail}</Text>
+        )}
+
         <View style={styles.row}>
-          <Text style={[styles.label, { color: colors.onSurface }]}>Remember Email</Text>
+          <Text style={[styles.label, { color: colors.onBackground }]}>Remember Email</Text>
           <Switch
             value={isRememberEmail}
             onValueChange={toggleRememberEmail}
             trackColor={{ true: colors.primary }}
           />
         </View>
-        {savedEmail && (
-          <View style={styles.row}>
-            <Text style={[styles.label, { color: colors.onSurface }]}>Saved Email</Text>
-            <Text style={[styles.value, { color: colors.onSurfaceVariant }]}>{savedEmail}</Text>
-          </View>
-        )}
-      </View>
 
-      <TouchableOpacity
-        style={[styles.logoutButton, { borderColor: colors.error }]}
-        onPress={logout}
-      >
-        <Text style={[styles.logoutButtonText, { color: colors.error }]}>Logout</Text>
-      </TouchableOpacity>
+        <TouchableOpacity
+          style={[styles.logoutButton, { borderColor: colors.outline }]}
+          onPress={logout}
+        >
+          <Text style={[styles.logoutButtonText, { color: colors.primary }]}>Logout</Text>
+        </TouchableOpacity>
+      </View>
 
       <SnackbarView />
     </View>
@@ -60,34 +57,32 @@ export function HomeScreen() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: AppTheme.spacing.lg,
+  },
+  content: {
+    flex: 1,
+    justifyContent: 'center',
+    paddingHorizontal: AppTheme.spacing.lg,
+    gap: AppTheme.spacing.md,
   },
   title: {
-    ...AppTheme.typography.headlineLarge,
-    marginBottom: AppTheme.spacing.sm,
-    marginTop: AppTheme.spacing.xl,
+    ...AppTheme.typography.headlineMedium,
+    textAlign: 'center',
   },
-  welcome: {
+  greeting: {
     ...AppTheme.typography.bodyLarge,
-    marginBottom: AppTheme.spacing.xl,
+    textAlign: 'center',
   },
-  card: {
-    borderRadius: AppTheme.borderRadius.lg,
-    padding: AppTheme.spacing.md,
-    marginBottom: AppTheme.spacing.xl,
-    borderWidth: 1,
+  savedEmail: {
+    ...AppTheme.typography.bodyMedium,
+    textAlign: 'center',
   },
   row: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    paddingVertical: AppTheme.spacing.sm,
   },
   label: {
     ...AppTheme.typography.bodyLarge,
-  },
-  value: {
-    ...AppTheme.typography.bodyMedium,
   },
   logoutButton: {
     borderWidth: 1,
