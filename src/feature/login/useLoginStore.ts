@@ -50,9 +50,11 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     set({ email: random })
   },
 
-  setDemoFailure: () => {
+  setDemoFailure: async () => {
+    const previousPassword = get().password
     set({ password: ERROR_PASSWORD })
-    get().submit()
+    await get().submit()
+    set({ password: previousPassword })
   },
 
   navigateToInfo: () => {
