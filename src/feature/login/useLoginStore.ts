@@ -29,7 +29,7 @@ type LoginActions = {
 
 export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
   email: '',
-  password: '',
+  password: 'password',
   isPasswordVisible: false,
   error: undefined,
   effect: undefined,

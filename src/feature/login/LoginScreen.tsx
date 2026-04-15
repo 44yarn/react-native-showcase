@@ -1,6 +1,7 @@
 import { ShowcaseAlertDialog } from '@/core/ui/ShowcaseAlertDialog'
 import { useIndicatorState } from '@/core/ui/indicatorState'
 import { AppTheme } from '@/core/ui/theme'
+import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useEffect } from 'react'
 import {
   ActivityIndicator,
@@ -48,7 +49,11 @@ export function LoginScreen() {
           editable={!isLoading}
         />
         <TouchableOpacity style={styles.iconButton} onPress={setRandomEmail} disabled={isLoading}>
-          <Text style={styles.iconText}>🔄</Text>
+          <MaterialCommunityIcons
+            name="email-sync-outline"
+            size={24}
+            color={AppTheme.colors.onSurfaceVariant}
+          />
         </TouchableOpacity>
       </View>
 
@@ -66,7 +71,11 @@ export function LoginScreen() {
           onPress={togglePasswordVisibility}
           disabled={isLoading}
         >
-          <Text style={styles.iconText}>{isPasswordVisible ? '🙈' : '👁'}</Text>
+          <MaterialCommunityIcons
+            name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+            size={24}
+            color={AppTheme.colors.onSurfaceVariant}
+          />
         </TouchableOpacity>
       </View>
 
@@ -141,9 +150,6 @@ const styles = StyleSheet.create({
   },
   iconButton: {
     padding: AppTheme.spacing.sm,
-  },
-  iconText: {
-    fontSize: 24,
   },
   error: {
     ...AppTheme.typography.bodyMedium,
