@@ -11,6 +11,9 @@ export default function LoginRoute() {
     if (effect?.type === 'navigateToHome') {
       consumeEffect()
       router.replace('/home')
+    } else if (effect?.type === 'navigateToInfo') {
+      consumeEffect()
+      router.push('/info')
     }
   }, [effect, consumeEffect, router])
 

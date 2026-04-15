@@ -1,19 +1,29 @@
 import type { Result } from '@/core/foundation/result'
 import { runCatching } from '@/core/foundation/result'
 
-type User = {
+export type User = {
   email: string
-  name: string
+  displayName: string
 }
 
-async function login(email: string, _password: string): Promise<Result<User>> {
+export const ERROR_PASSWORD = 'error'
+export const CORRECT_PASSWORD = 'password'
+
+export const SAMPLE_EMAILS = [
+  'demo@example.com',
+  'alice@showcase.dev',
+  'bob@showcase.dev',
+  'charlie@showcase.dev',
+  'test@example.com',
+]
+
+async function login(email: string, password: string): Promise<Result<User>> {
   return runCatching(async () => {
-    // TODO: 実際の API 呼び出しに置き換え
-    await new Promise((resolve) => setTimeout(resolve, 1000))
-    if (email === 'error@example.com') {
+    await new Promise((resolve) => setTimeout(resolve, 1500))
+    if (password === ERROR_PASSWORD) {
       throw new Error('Invalid credentials')
     }
-    return { email, name: 'Showcase User' }
+    return { email, displayName: email.split('@')[0] }
   })
 }
 
