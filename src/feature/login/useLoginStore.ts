@@ -112,9 +112,9 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
 
     useIndicatorState.getState().startLoading()
     const result = await authRepository.login(email, password)
-    useIndicatorState.getState().stopLoading()
 
     if (signal.aborted) return
+    useIndicatorState.getState().stopLoading()
 
     if (result.ok) {
       const rememberEmail = await preferenceStorage.getOrDefault(

@@ -22,6 +22,7 @@ export function HomeScreen() {
   }, [init])
 
   useEffect(() => {
+    if (!displayName) return
     const timer = setTimeout(() => {
       useSnackbarPresenter.getState().show(t('home.welcome', { name: displayName }))
     }, 500)

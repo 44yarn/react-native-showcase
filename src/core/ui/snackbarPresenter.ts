@@ -8,17 +8,17 @@ export type SnackbarUiState = {
 
 type SnackbarStore = {
   snackbarState: SnackbarUiState | undefined
-  _nextId: number
   show: (message: string, actionLabel?: string) => void
   hide: () => void
 }
 
+let nextId = 0
+
 export const useSnackbarPresenter = create<SnackbarStore>((set, get) => ({
   snackbarState: undefined,
-  _nextId: 0,
   show: (message, actionLabel) => {
-    const id = get()._nextId + 1
-    set({ _nextId: id, snackbarState: { id, message, actionLabel } })
+    const id = ++nextId
+    set({ snackbarState: { id, message, actionLabel } })
     setTimeout(() => {
       const current = get().snackbarState
       if (current?.id === id) {
