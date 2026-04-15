@@ -39,13 +39,9 @@ export function LoginScreen() {
     <View style={[styles.container, { backgroundColor: colors.background }]}>
       <Text style={[styles.title, { color: colors.onBackground }]}>Login</Text>
 
-      <View style={styles.inputRow}>
+      <View style={[styles.inputContainer, { borderColor: colors.outline }]}>
         <TextInput
-          style={[
-            styles.input,
-            styles.inputFlex,
-            { borderColor: colors.outline, color: colors.onSurface },
-          ]}
+          style={[styles.input, { color: colors.onSurface }]}
           placeholder="Email"
           placeholderTextColor={colors.onSurfaceVariant}
           value={email}
@@ -54,22 +50,14 @@ export function LoginScreen() {
           keyboardType="email-address"
           editable={!isLoading}
         />
-        <TouchableOpacity style={styles.iconButton} onPress={setRandomEmail} disabled={isLoading}>
-          <MaterialCommunityIcons
-            name="email-sync-outline"
-            size={24}
-            color={colors.onSurfaceVariant}
-          />
+        <TouchableOpacity style={styles.trailingIcon} onPress={setRandomEmail} disabled={isLoading}>
+          <MaterialCommunityIcons name="refresh" size={24} color={colors.onSurfaceVariant} />
         </TouchableOpacity>
       </View>
 
-      <View style={styles.inputRow}>
+      <View style={[styles.inputContainer, { borderColor: colors.outline }]}>
         <TextInput
-          style={[
-            styles.input,
-            styles.inputFlex,
-            { borderColor: colors.outline, color: colors.onSurface },
-          ]}
+          style={[styles.input, { color: colors.onSurface }]}
           placeholder="Password"
           placeholderTextColor={colors.onSurfaceVariant}
           value={password}
@@ -78,7 +66,7 @@ export function LoginScreen() {
           editable={!isLoading}
         />
         <TouchableOpacity
-          style={styles.iconButton}
+          style={styles.trailingIcon}
           onPress={togglePasswordVisibility}
           disabled={isLoading}
         >
@@ -144,23 +132,21 @@ const styles = StyleSheet.create({
     marginBottom: AppTheme.spacing.xl,
     textAlign: 'center',
   },
-  inputRow: {
+  inputContainer: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: AppTheme.spacing.md,
-    gap: AppTheme.spacing.sm,
-  },
-  input: {
     borderWidth: 1,
     borderRadius: AppTheme.borderRadius.md,
+    marginBottom: AppTheme.spacing.md,
+  },
+  input: {
+    flex: 1,
     padding: AppTheme.spacing.md,
     ...AppTheme.typography.bodyLarge,
   },
-  inputFlex: {
-    flex: 1,
-  },
-  iconButton: {
+  trailingIcon: {
     padding: AppTheme.spacing.sm,
+    marginRight: AppTheme.spacing.xs,
   },
   error: {
     ...AppTheme.typography.bodyMedium,
