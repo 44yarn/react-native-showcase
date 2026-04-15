@@ -1,0 +1,1 @@
+export { InfoScreen } from './InfoScreen'

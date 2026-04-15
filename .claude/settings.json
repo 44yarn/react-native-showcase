@@ -1,0 +1,99 @@
+{
+    "permissions": {
+        "allow": [
+            "Bash(npm:*)",
+            "Bash(npx:*)",
+            "Bash(find:*)",
+            "Bash(ls:*)",
+            "Bash(mkdir:*)",
+            "Bash(cp:*)",
+            "Bash(mv:*)",
+            "Bash(cat:*)",
+            "Bash(grep:*)",
+            "Bash(echo:*)",
+            "Bash(wc:*)",
+            "Bash(head:*)",
+            "Bash(tail:*)",
+            "Bash(sort:*)",
+            "Bash(diff:*)",
+            "Bash(file:*)",
+            "Bash(which:*)",
+            "Bash(tree:*)",
+            "Bash(du:*)",
+            "Bash(stat:*)",
+            "Bash(tr:*)",
+            "Bash(sed:*)",
+            "Bash(xargs:*)",
+            "Bash(realpath:*)",
+            "Read(~/.claude/**)",
+            "Read(/Users/mitsuharu/mac-setup/**)",
+            "Bash(git status:*)",
+            "Bash(git log:*)",
+            "Bash(git diff:*)",
+            "Bash(git fetch:*)",
+            "Bash(git rev-parse:*)",
+            "Bash(git ls-files:*)",
+            "Bash(git add:*)",
+            "Bash(git checkout:*)",
+            "Bash(git branch:*)",
+            "Bash(git stash:*)",
+            "Bash(git show:*)",
+            "Bash(git blame:*)",
+            "Bash(git grep:*)",
+            "Bash(gh pr:*)",
+            "Bash(gh issue:*)",
+            "WebSearch",
+            "WebFetch(domain:github.com)",
+            "WebFetch(domain:reactnative.dev)",
+            "WebFetch(domain:docs.expo.dev)",
+            "WebFetch(domain:zustand-demo.pmnd.rs)"
+        ],
+        "ask": [
+            "Bash(git commit:*)",
+            "Bash(git merge:*)",
+            "Bash(git push:*)",
+            "Bash(git reset:*)"
+        ],
+        "deny": [
+            "Bash(rm -rf /*)",
+            "Bash(rm -rf ~/:*)",
+            "Bash(sudo:*)",
+            "Read(.env)",
+            "Read(.env.*)"
+        ]
+    },
+    "hooks": {
+        "PostToolUse": [
+            {
+                "matcher": "Edit|Write",
+                "hooks": [
+                    {
+                        "type": "command",
+                        "command": "if [[ \"$CLAUDE_FILE_PATHS\" =~ \\.(ts|tsx)$ ]]; then npx biome check --write \"$CLAUDE_FILE_PATHS\" --quiet 2>/dev/null || echo '⚠️ biome check failed'; fi"
+                    }
+                ]
+            }
+        ]
+    },
+    "claudeMdExcludes": [
+        "~/.claude/rules/compose-ui.md",
+        "~/.claude/rules/compose-ui-android.md",
+        "~/.claude/rules/compose-ui-kmp.md",
+        "~/.claude/rules/kotlin-conventions.md",
+        "~/.claude/rules/kotlin-patterns.md",
+        "~/.claude/rules/kotlin-coroutines.md",
+        "~/.claude/rules/kotlin-call-site.md",
+        "~/.claude/rules/viewmodel.md",
+        "~/.claude/rules/viewmodel-android.md",
+        "~/.claude/rules/viewmodel-kmp.md",
+        "~/.claude/rules/data-layer.md",
+        "~/.claude/rules/data-layer-kmp.md",
+        "~/.claude/rules/gradle-conventions.md",
+        "~/.claude/rules/ios-kmp.md",
+        "~/.claude/rules/swift-ui.md",
+        "~/.claude/rules/adaptive-string.md",
+        "~/.claude/rules/api-client.md",
+        "~/.claude/rules/result-handling.md",
+        "~/.claude/rules/jvm-api-restriction.md"
+    ]
+}

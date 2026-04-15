@@ -1,0 +1,37 @@
+export const AppTheme = {
+  colors: {
+    primary: '#6750A4',
+    onPrimary: '#FFFFFF',
+    primaryContainer: '#EADDFF',
+    onPrimaryContainer: '#21005D',
+    surface: '#FFFBFE',
+    onSurface: '#1C1B1F',
+    onSurfaceVariant: '#49454F',
+    background: '#FFFBFE',
+    onBackground: '#1C1B1F',
+    error: '#B3261E',
+    onError: '#FFFFFF',
+    outline: '#79747E',
+  },
+  spacing: {
+    xs: 4,
+    sm: 8,
+    md: 16,
+    lg: 24,
+    xl: 32,
+  },
+  typography: {
+    headlineLarge: { fontSize: 32, fontWeight: '700' as const },
+    headlineMedium: { fontSize: 28, fontWeight: '600' as const },
+    bodyLarge: { fontSize: 16, fontWeight: '400' as const },
+    bodyMedium: { fontSize: 14, fontWeight: '400' as const },
+    labelLarge: { fontSize: 14, fontWeight: '500' as const },
+    labelMedium: { fontSize: 12, fontWeight: '500' as const },
+  },
+  borderRadius: {
+    sm: 4,
+    md: 8,
+    lg: 12,
+    xl: 16,
+  },
+} as const
