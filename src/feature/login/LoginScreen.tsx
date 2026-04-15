@@ -91,7 +91,7 @@ export function LoginScreen() {
         disabled={!isLoginEnabled}
       >
         <Text style={[styles.primaryButtonText, { color: colors.onPrimary }]}>
-          {t('login.signIn')}
+          {t('login.login')}
         </Text>
       </TouchableOpacity>
 
@@ -102,7 +102,7 @@ export function LoginScreen() {
           disabled={isLoading}
         >
           <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>
-            {t('login.demoFailure')}
+            {t('login.loginFail')}
           </Text>
         </TouchableOpacity>
 
