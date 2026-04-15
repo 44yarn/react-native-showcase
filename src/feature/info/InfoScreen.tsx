@@ -1,13 +1,14 @@
+import { t } from '@/core/i18n'
 import { AppTheme, useAppColors } from '@/core/ui/theme'
 import { StyleSheet, Text, View } from 'react-native'
 
-const INFO_ITEMS = [
-  { label: 'Architecture', value: 'Feature-based, Store pattern' },
-  { label: 'UI', value: 'React Native + Expo' },
-  { label: 'State', value: 'Zustand' },
-  { label: 'Navigation', value: 'Expo Router (file-based)' },
-  { label: 'Async', value: 'Promise + async/await' },
-  { label: 'Storage', value: 'SecureStore' },
+const INFO_KEYS = [
+  { label: 'info.architecture', value: 'info.architectureValue' },
+  { label: 'info.ui', value: 'info.uiValue' },
+  { label: 'info.state', value: 'info.stateValue' },
+  { label: 'info.navigation', value: 'info.navigationValue' },
+  { label: 'info.async', value: 'info.asyncValue' },
+  { label: 'info.storage', value: 'info.storageValue' },
 ] as const
 
 export function InfoScreen() {
@@ -15,16 +16,15 @@ export function InfoScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.title, { color: colors.onBackground }]}>React Native Showcase</Text>
+      <Text style={[styles.title, { color: colors.onBackground }]}>{t('info.title')}</Text>
       <Text style={[styles.description, { color: colors.onSurfaceVariant }]}>
-        This app demonstrates React Native architecture patterns including Expo Router, Zustand
-        state management, and various UI feedback mechanisms.
+        {t('info.description')}
       </Text>
       <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.outline }]}>
-        {INFO_ITEMS.map((item) => (
+        {INFO_KEYS.map((item) => (
           <View key={item.label} style={styles.row}>
-            <Text style={[styles.label, { color: colors.onSurface }]}>{item.label}</Text>
-            <Text style={[styles.value, { color: colors.onSurfaceVariant }]}>{item.value}</Text>
+            <Text style={[styles.label, { color: colors.onSurface }]}>{t(item.label)}</Text>
+            <Text style={[styles.value, { color: colors.onSurfaceVariant }]}>{t(item.value)}</Text>
           </View>
         ))}
       </View>

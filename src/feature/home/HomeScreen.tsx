@@ -1,4 +1,5 @@
 import { useSessionStore } from '@/core/data/useSessionStore'
+import { t } from '@/core/i18n'
 import { SnackbarView } from '@/core/ui/SnackbarView'
 import { useSnackbarPresenter } from '@/core/ui/snackbarPresenter'
 import { AppTheme, useAppColors } from '@/core/ui/theme'
@@ -22,7 +23,7 @@ export function HomeScreen() {
 
   useEffect(() => {
     const timer = setTimeout(() => {
-      useSnackbarPresenter.getState().show(`Welcome, ${displayName}!`)
+      useSnackbarPresenter.getState().show(t('home.welcome', { name: displayName }))
     }, 500)
     return () => clearTimeout(timer)
   }, [displayName])
@@ -32,14 +33,18 @@ export function HomeScreen() {
       <View style={styles.content}>
         <Text style={[styles.title, { color: colors.onBackground }]}>{screenTitle}</Text>
 
-        <Text style={[styles.greeting, { color: colors.onBackground }]}>Hello, {displayName}!</Text>
+        <Text style={[styles.greeting, { color: colors.onBackground }]}>
+          {t('home.welcome', { name: displayName })}
+        </Text>
 
         {savedEmail && (
           <Text style={[styles.savedEmail, { color: colors.outline }]}>{savedEmail}</Text>
         )}
 
         <View style={styles.row}>
-          <Text style={[styles.label, { color: colors.onBackground }]}>Remember Email</Text>
+          <Text style={[styles.label, { color: colors.onBackground }]}>
+            {t('home.rememberEmail')}
+          </Text>
           <Switch
             value={isRememberEmail}
             onValueChange={toggleRememberEmail}
@@ -51,7 +56,9 @@ export function HomeScreen() {
           style={[styles.logoutButton, { borderColor: colors.outline }]}
           onPress={logout}
         >
-          <Text style={[styles.logoutButtonText, { color: colors.primary }]}>Logout</Text>
+          <Text style={[styles.logoutButtonText, { color: colors.primary }]}>
+            {t('home.logout')}
+          </Text>
         </TouchableOpacity>
       </View>
 

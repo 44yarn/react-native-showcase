@@ -1,0 +1,42 @@
+export const en = {
+  app: {
+    title: 'React Native Showcase',
+  },
+  login: {
+    title: 'Login',
+    email: 'Email',
+    password: 'Password',
+    signIn: 'Sign In',
+    demoFailure: 'Demo Failure',
+    information: 'Information',
+    failedTitle: 'Login Failed',
+    guestLogin: 'Guest Login',
+    cancel: 'Cancel',
+  },
+  home: {
+    title: 'Home',
+    guestTitle: 'Guest Home',
+    welcome: 'Hello, %{name}!',
+    rememberEmail: 'Remember Email',
+    savedEmail: 'Saved Email',
+    logout: 'Logout',
+    backMessage: 'Use the Logout button to sign out',
+  },
+  info: {
+    title: 'React Native Showcase',
+    description:
+      'This app demonstrates React Native architecture patterns including Expo Router, Zustand state management, and various UI feedback mechanisms.',
+    architecture: 'Architecture',
+    architectureValue: 'Feature-based, Store pattern',
+    ui: 'UI',
+    uiValue: 'React Native + Expo',
+    state: 'State',
+    stateValue: 'Zustand',
+    navigation: 'Navigation',
+    navigationValue: 'Expo Router (file-based)',
+    async: 'Async',
+    asyncValue: 'Promise + async/await',
+    storage: 'Storage',
+    storageValue: 'SecureStore',
+  },
+}

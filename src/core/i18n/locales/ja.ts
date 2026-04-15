@@ -1,0 +1,42 @@
+export const ja = {
+  app: {
+    title: 'React Native Showcase',
+  },
+  login: {
+    title: 'ログイン',
+    email: 'メールアドレス',
+    password: 'パスワード',
+    signIn: 'サインイン',
+    demoFailure: 'ログイン失敗デモ',
+    information: '情報',
+    failedTitle: 'ログイン失敗',
+    guestLogin: 'ゲストログイン',
+    cancel: 'キャンセル',
+  },
+  home: {
+    title: 'ホーム',
+    guestTitle: 'ゲストホーム',
+    welcome: 'こんにちは、%{name}！',
+    rememberEmail: 'メールを記憶',
+    savedEmail: '保存されたメール',
+    logout: 'ログアウト',
+    backMessage: 'ログアウトボタンからサインアウトしてください',
+  },
+  info: {
+    title: 'React Native Showcase',
+    description:
+      'このアプリは、Expo Router、Zustand による状態管理、各種 UI フィードバックパターンなど、React Native のアーキテクチャパターンを紹介します。',
+    architecture: 'アーキテクチャ',
+    architectureValue: 'Feature-based, Store パターン',
+    ui: 'UI',
+    uiValue: 'React Native + Expo',
+    state: '状態管理',
+    stateValue: 'Zustand',
+    navigation: 'ナビゲーション',
+    navigationValue: 'Expo Router (ファイルベース)',
+    async: '非同期',
+    asyncValue: 'Promise + async/await',
+    storage: 'ストレージ',
+    storageValue: 'SecureStore',
+  },
+}

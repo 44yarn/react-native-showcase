@@ -1,6 +1,7 @@
 import { ERROR_PASSWORD, SAMPLE_EMAILS, authRepository } from '@/core/data/authRepository'
 import { PreferenceKey, preferenceStorage } from '@/core/data/preferenceStorage'
 import { useSessionStore } from '@/core/data/useSessionStore'
+import { t } from '@/core/i18n'
 import { useDialogPresenter } from '@/core/ui/dialogPresenter'
 import { runWithLoading } from '@/core/ui/indicatorState'
 import { useIndicatorState } from '@/core/ui/indicatorState'
@@ -98,10 +99,10 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
       set({ effect: { type: 'navigateToHome' } })
     } else {
       const dialogResult = await useDialogPresenter.getState().requestDialog({
-        title: 'Login Failed',
+        title: t('login.failedTitle'),
         message: result.error.message,
-        positiveButton: 'Guest Login',
-        negativeButton: 'Cancel',
+        positiveButton: t('login.guestLogin'),
+        negativeButton: t('login.cancel'),
       })
       if (dialogResult === 'positive') {
         useSessionStore.getState().setSession('Guest', true)

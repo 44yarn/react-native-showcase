@@ -1,5 +1,6 @@
 import { PreferenceKey, preferenceStorage } from '@/core/data/preferenceStorage'
 import { useSessionStore } from '@/core/data/useSessionStore'
+import { t } from '@/core/i18n'
 import { useSnackbarPresenter } from '@/core/ui/snackbarPresenter'
 import { create } from 'zustand'
 
@@ -32,7 +33,7 @@ export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
     if (get()._initialized) return
     set({ _initialized: true })
     const { isGuest } = useSessionStore.getState()
-    set({ screenTitle: isGuest ? 'Guest Home' : 'Home' })
+    set({ screenTitle: isGuest ? t('home.guestTitle') : t('home.title') })
     const savedEmail = await preferenceStorage.getOrNull<string>(PreferenceKey.Auth.SavedEmail)
     const isRememberEmail = await preferenceStorage.getOrDefault(
       PreferenceKey.Auth.RememberEmail,
@@ -52,7 +53,7 @@ export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
   },
 
   onBack: () => {
-    useSnackbarPresenter.getState().show('Use the Logout button to sign out')
+    useSnackbarPresenter.getState().show(t('home.backMessage'))
   },
 
   logout: () => {

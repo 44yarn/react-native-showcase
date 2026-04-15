@@ -1,3 +1,4 @@
+import { t } from '@/core/i18n'
 import { ShowcaseAlertDialog } from '@/core/ui/ShowcaseAlertDialog'
 import { useIndicatorState } from '@/core/ui/indicatorState'
 import { AppTheme, useAppColors } from '@/core/ui/theme'
@@ -36,13 +37,13 @@ export function LoginScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.appTitle, { color: colors.primary }]}>React Native Showcase</Text>
-      <Text style={[styles.title, { color: colors.onBackground }]}>Login</Text>
+      <Text style={[styles.appTitle, { color: colors.primary }]}>{t('app.title')}</Text>
+      <Text style={[styles.title, { color: colors.onBackground }]}>{t('login.title')}</Text>
 
       <View style={[styles.inputContainer, { borderColor: colors.outline }]}>
         <TextInput
           style={[styles.input, { color: colors.onSurface }]}
-          placeholder="Email"
+          placeholder={t('login.email')}
           placeholderTextColor={colors.onSurfaceVariant}
           value={email}
           onChangeText={updateEmail}
@@ -58,7 +59,7 @@ export function LoginScreen() {
       <View style={[styles.inputContainer, { borderColor: colors.outline }]}>
         <TextInput
           style={[styles.input, { color: colors.onSurface }]}
-          placeholder="Password"
+          placeholder={t('login.password')}
           placeholderTextColor={colors.onSurfaceVariant}
           value={password}
           onChangeText={updatePassword}
@@ -89,7 +90,9 @@ export function LoginScreen() {
         onPress={submit}
         disabled={!isLoginEnabled}
       >
-        <Text style={[styles.primaryButtonText, { color: colors.onPrimary }]}>Sign In</Text>
+        <Text style={[styles.primaryButtonText, { color: colors.onPrimary }]}>
+          {t('login.signIn')}
+        </Text>
       </TouchableOpacity>
 
       <View style={styles.secondaryButtons}>
@@ -98,7 +101,9 @@ export function LoginScreen() {
           onPress={setDemoFailure}
           disabled={isLoading}
         >
-          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>Demo Failure</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>
+            {t('login.demoFailure')}
+          </Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -106,7 +111,9 @@ export function LoginScreen() {
           onPress={navigateToInfo}
           disabled={isLoading}
         >
-          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>Information</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>
+            {t('login.information')}
+          </Text>
         </TouchableOpacity>
       </View>
 
