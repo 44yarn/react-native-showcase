@@ -1,4 +1,4 @@
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import * as SecureStore from 'expo-secure-store'
 
 export const PreferenceKey = {
   Auth: {
@@ -8,7 +8,7 @@ export const PreferenceKey = {
 } as const
 
 export async function getOrNull<T>(key: string): Promise<T | undefined> {
-  const raw = await AsyncStorage.getItem(key)
+  const raw = await SecureStore.getItemAsync(key)
   if (raw === null) return undefined
   return JSON.parse(raw) as T
 }
@@ -19,15 +19,11 @@ export async function getOrDefault<T>(key: string, defaultValue: T): Promise<T> 
 }
 
 export async function put<T>(key: string, value: T): Promise<void> {
-  await AsyncStorage.setItem(key, JSON.stringify(value))
+  await SecureStore.setItemAsync(key, JSON.stringify(value))
 }
 
 export async function remove(key: string): Promise<void> {
-  await AsyncStorage.removeItem(key)
+  await SecureStore.deleteItemAsync(key)
 }
 
-export async function removeAll(): Promise<void> {
-  await AsyncStorage.clear()
-}
-
-export const preferenceStorage = { getOrNull, getOrDefault, put, remove, removeAll }
+export const preferenceStorage = { getOrNull, getOrDefault, put, remove }

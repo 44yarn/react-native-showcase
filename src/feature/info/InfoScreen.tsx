@@ -7,7 +7,7 @@ const INFO_ITEMS = [
   { label: 'State', value: 'Zustand' },
   { label: 'Navigation', value: 'Expo Router (file-based)' },
   { label: 'Async', value: 'Promise + async/await' },
-  { label: 'Storage', value: 'AsyncStorage' },
+  { label: 'Storage', value: 'SecureStore' },
 ] as const
 
 export function InfoScreen() {
