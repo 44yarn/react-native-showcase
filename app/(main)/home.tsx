@@ -1,4 +1,5 @@
 import { HomeScreen, useHomeStore } from '@/feature/home'
+import { useLoginStore } from '@/feature/login'
 import { useRouter } from 'expo-router'
 import { useEffect } from 'react'
 import { BackHandler } from 'react-native'
@@ -12,6 +13,7 @@ export default function HomeRoute() {
   useEffect(() => {
     if (effect?.type === 'navigateToLogin') {
       consumeEffect()
+      useLoginStore.getState().reset()
       router.replace('/(auth)/login')
     }
   }, [effect, consumeEffect, router])

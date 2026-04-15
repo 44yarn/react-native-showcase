@@ -58,7 +58,7 @@ export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
 
   logout: () => {
     useSessionStore.getState().clearSession()
-    set({ effect: { type: 'navigateToLogin' } })
+    set({ _initialized: false, effect: { type: 'navigateToLogin' } })
   },
 
   consumeEffect: () => set({ effect: undefined }),

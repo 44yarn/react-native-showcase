@@ -35,6 +35,7 @@ type LoginActions = {
   submit: () => Promise<void>
   navigateToInfo: () => void
   consumeEffect: () => void
+  reset: () => void
 }
 
 export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
@@ -80,6 +81,16 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
   },
 
   consumeEffect: () => set({ effect: undefined }),
+  reset: () =>
+    set({
+      _initialized: false,
+      email: 'demo@example.com',
+      password: 'password',
+      isPasswordVisible: false,
+      isLoginEnabled: true,
+      error: undefined,
+      effect: undefined,
+    }),
 
   submit: async () => {
     set({ error: undefined })
