@@ -1,6 +1,6 @@
 import { ShowcaseAlertDialog } from '@/core/ui/ShowcaseAlertDialog'
 import { useIndicatorState } from '@/core/ui/indicatorState'
-import { AppTheme } from '@/core/ui/theme'
+import { AppTheme, useAppColors } from '@/core/ui/theme'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
 import { useEffect } from 'react'
 import {
@@ -14,6 +14,7 @@ import {
 import { useLoginStore } from './useLoginStore'
 
 export function LoginScreen() {
+  const colors = useAppColors()
   const email = useLoginStore((s) => s.email)
   const password = useLoginStore((s) => s.password)
   const isPasswordVisible = useLoginStore((s) => s.isPasswordVisible)
@@ -35,13 +36,18 @@ export function LoginScreen() {
   }, [init])
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.onBackground }]}>Login</Text>
 
       <View style={styles.inputRow}>
         <TextInput
-          style={[styles.input, styles.inputFlex]}
+          style={[
+            styles.input,
+            styles.inputFlex,
+            { borderColor: colors.outline, color: colors.onSurface },
+          ]}
           placeholder="Email"
+          placeholderTextColor={colors.onSurfaceVariant}
           value={email}
           onChangeText={updateEmail}
           autoCapitalize="none"
@@ -52,15 +58,20 @@ export function LoginScreen() {
           <MaterialCommunityIcons
             name="email-sync-outline"
             size={24}
-            color={AppTheme.colors.onSurfaceVariant}
+            color={colors.onSurfaceVariant}
           />
         </TouchableOpacity>
       </View>
 
       <View style={styles.inputRow}>
         <TextInput
-          style={[styles.input, styles.inputFlex]}
+          style={[
+            styles.input,
+            styles.inputFlex,
+            { borderColor: colors.outline, color: colors.onSurface },
+          ]}
           placeholder="Password"
+          placeholderTextColor={colors.onSurfaceVariant}
           value={password}
           onChangeText={updatePassword}
           secureTextEntry={!isPasswordVisible}
@@ -74,19 +85,23 @@ export function LoginScreen() {
           <MaterialCommunityIcons
             name={isPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
             size={24}
-            color={AppTheme.colors.onSurfaceVariant}
+            color={colors.onSurfaceVariant}
           />
         </TouchableOpacity>
       </View>
 
-      {error && <Text style={styles.error}>{error}</Text>}
+      {error && <Text style={[styles.error, { color: colors.error }]}>{error}</Text>}
 
       <TouchableOpacity
-        style={[styles.primaryButton, !isLoginEnabled && styles.buttonDisabled]}
+        style={[
+          styles.primaryButton,
+          { backgroundColor: colors.primary },
+          !isLoginEnabled && styles.buttonDisabled,
+        ]}
         onPress={submit}
         disabled={!isLoginEnabled}
       >
-        <Text style={styles.primaryButtonText}>Sign In</Text>
+        <Text style={[styles.primaryButtonText, { color: colors.onPrimary }]}>Sign In</Text>
       </TouchableOpacity>
 
       <View style={styles.secondaryButtons}>
@@ -95,7 +110,7 @@ export function LoginScreen() {
           onPress={setDemoFailure}
           disabled={isLoading}
         >
-          <Text style={styles.secondaryButtonText}>Demo Failure</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>Demo Failure</Text>
         </TouchableOpacity>
 
         <TouchableOpacity
@@ -103,13 +118,13 @@ export function LoginScreen() {
           onPress={navigateToInfo}
           disabled={isLoading}
         >
-          <Text style={styles.secondaryButtonText}>Information</Text>
+          <Text style={[styles.secondaryButtonText, { color: colors.primary }]}>Information</Text>
         </TouchableOpacity>
       </View>
 
       {isLoading && (
-        <View style={styles.loadingOverlay}>
-          <ActivityIndicator size="large" color={AppTheme.colors.primary} />
+        <View style={[styles.loadingOverlay, { backgroundColor: `${colors.background}B3` }]}>
+          <ActivityIndicator size="large" color={colors.primary} />
         </View>
       )}
 
@@ -123,11 +138,9 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     padding: AppTheme.spacing.lg,
-    backgroundColor: AppTheme.colors.background,
   },
   title: {
     ...AppTheme.typography.headlineLarge,
-    color: AppTheme.colors.onBackground,
     marginBottom: AppTheme.spacing.xl,
     textAlign: 'center',
   },
@@ -139,11 +152,9 @@ const styles = StyleSheet.create({
   },
   input: {
     borderWidth: 1,
-    borderColor: AppTheme.colors.outline,
     borderRadius: AppTheme.borderRadius.md,
     padding: AppTheme.spacing.md,
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurface,
   },
   inputFlex: {
     flex: 1,
@@ -153,11 +164,9 @@ const styles = StyleSheet.create({
   },
   error: {
     ...AppTheme.typography.bodyMedium,
-    color: AppTheme.colors.error,
     marginBottom: AppTheme.spacing.md,
   },
   primaryButton: {
-    backgroundColor: AppTheme.colors.primary,
     padding: AppTheme.spacing.md,
     borderRadius: AppTheme.borderRadius.md,
     alignItems: 'center',
@@ -168,7 +177,6 @@ const styles = StyleSheet.create({
   },
   primaryButtonText: {
     ...AppTheme.typography.labelLarge,
-    color: AppTheme.colors.onPrimary,
   },
   secondaryButtons: {
     flexDirection: 'row',
@@ -180,11 +188,9 @@ const styles = StyleSheet.create({
   },
   secondaryButtonText: {
     ...AppTheme.typography.labelLarge,
-    color: AppTheme.colors.primary,
   },
   loadingOverlay: {
     ...StyleSheet.absoluteFillObject,
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
     justifyContent: 'center',
     alignItems: 'center',
   },

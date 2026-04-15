@@ -1,8 +1,9 @@
-import { AppTheme } from '@/core/ui/theme'
+import { AppTheme, useAppColors } from '@/core/ui/theme'
 import { Modal, Pressable, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import { useDialogPresenter } from './dialogPresenter'
 
 export function ShowcaseAlertDialog() {
+  const colors = useAppColors()
   const dialogState = useDialogPresenter((s) => s.dialogState)
   const onPositive = useDialogPresenter((s) => s.onPositive)
   const onNegative = useDialogPresenter((s) => s.onNegative)
@@ -13,18 +14,28 @@ export function ShowcaseAlertDialog() {
   return (
     <Modal transparent animationType="fade" onRequestClose={onDismiss}>
       <Pressable style={styles.overlay} onPress={onDismiss}>
-        <Pressable style={styles.dialog}>
-          {dialogState.title && <Text style={styles.title}>{dialogState.title}</Text>}
-          {dialogState.message && <Text style={styles.message}>{dialogState.message}</Text>}
+        <Pressable style={[styles.dialog, { backgroundColor: colors.surface }]}>
+          {dialogState.title && (
+            <Text style={[styles.title, { color: colors.onSurface }]}>{dialogState.title}</Text>
+          )}
+          {dialogState.message && (
+            <Text style={[styles.message, { color: colors.onSurfaceVariant }]}>
+              {dialogState.message}
+            </Text>
+          )}
           <View style={styles.buttons}>
             {dialogState.negativeButton && (
-              <TouchableOpacity style={styles.negativeButton} onPress={onNegative}>
-                <Text style={styles.negativeButtonText}>{dialogState.negativeButton}</Text>
+              <TouchableOpacity style={styles.button} onPress={onNegative}>
+                <Text style={[styles.buttonText, { color: colors.primary }]}>
+                  {dialogState.negativeButton}
+                </Text>
               </TouchableOpacity>
             )}
             {dialogState.positiveButton && (
-              <TouchableOpacity style={styles.positiveButton} onPress={onPositive}>
-                <Text style={styles.positiveButtonText}>{dialogState.positiveButton}</Text>
+              <TouchableOpacity style={styles.button} onPress={onPositive}>
+                <Text style={[styles.buttonText, { color: colors.primary }]}>
+                  {dialogState.positiveButton}
+                </Text>
               </TouchableOpacity>
             )}
           </View>
@@ -43,7 +54,6 @@ const styles = StyleSheet.create({
     padding: AppTheme.spacing.lg,
   },
   dialog: {
-    backgroundColor: AppTheme.colors.surface,
     borderRadius: AppTheme.borderRadius.xl,
     padding: AppTheme.spacing.lg,
     width: '100%',
@@ -51,12 +61,10 @@ const styles = StyleSheet.create({
   },
   title: {
     ...AppTheme.typography.headlineMedium,
-    color: AppTheme.colors.onSurface,
     marginBottom: AppTheme.spacing.md,
   },
   message: {
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurfaceVariant,
     marginBottom: AppTheme.spacing.lg,
   },
   buttons: {
@@ -64,20 +72,11 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
     gap: AppTheme.spacing.sm,
   },
-  negativeButton: {
+  button: {
     paddingVertical: AppTheme.spacing.sm,
     paddingHorizontal: AppTheme.spacing.md,
   },
-  negativeButtonText: {
+  buttonText: {
     ...AppTheme.typography.labelLarge,
-    color: AppTheme.colors.primary,
-  },
-  positiveButton: {
-    paddingVertical: AppTheme.spacing.sm,
-    paddingHorizontal: AppTheme.spacing.md,
-  },
-  positiveButtonText: {
-    ...AppTheme.typography.labelLarge,
-    color: AppTheme.colors.primary,
   },
 })

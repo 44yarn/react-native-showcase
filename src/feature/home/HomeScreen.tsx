@@ -1,11 +1,12 @@
 import { useSessionStore } from '@/core/data/useSessionStore'
 import { SnackbarView } from '@/core/ui/SnackbarView'
-import { AppTheme } from '@/core/ui/theme'
+import { AppTheme, useAppColors } from '@/core/ui/theme'
 import { useEffect } from 'react'
 import { StyleSheet, Switch, Text, TouchableOpacity, View } from 'react-native'
 import { useHomeStore } from './useHomeStore'
 
 export function HomeScreen() {
+  const colors = useAppColors()
   const displayName = useSessionStore((s) => s.displayName)
   const isGuest = useSessionStore((s) => s.isGuest)
   const savedEmail = useHomeStore((s) => s.savedEmail)
@@ -21,29 +22,34 @@ export function HomeScreen() {
   }, [init])
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>{screenTitle}</Text>
-      <Text style={styles.welcome}>Hello, {displayName}!</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.onBackground }]}>{screenTitle}</Text>
+      <Text style={[styles.welcome, { color: colors.onSurfaceVariant }]}>
+        Hello, {displayName}!
+      </Text>
 
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.outline }]}>
         <View style={styles.row}>
-          <Text style={styles.label}>Remember Email</Text>
+          <Text style={[styles.label, { color: colors.onSurface }]}>Remember Email</Text>
           <Switch
             value={isRememberEmail}
             onValueChange={toggleRememberEmail}
-            trackColor={{ true: AppTheme.colors.primary }}
+            trackColor={{ true: colors.primary }}
           />
         </View>
         {savedEmail && (
           <View style={styles.row}>
-            <Text style={styles.label}>Saved Email</Text>
-            <Text style={styles.value}>{savedEmail}</Text>
+            <Text style={[styles.label, { color: colors.onSurface }]}>Saved Email</Text>
+            <Text style={[styles.value, { color: colors.onSurfaceVariant }]}>{savedEmail}</Text>
           </View>
         )}
       </View>
 
-      <TouchableOpacity style={styles.logoutButton} onPress={logout}>
-        <Text style={styles.logoutButtonText}>Logout</Text>
+      <TouchableOpacity
+        style={[styles.logoutButton, { borderColor: colors.error }]}
+        onPress={logout}
+      >
+        <Text style={[styles.logoutButtonText, { color: colors.error }]}>Logout</Text>
       </TouchableOpacity>
 
       <SnackbarView />
@@ -55,26 +61,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: AppTheme.spacing.lg,
-    backgroundColor: AppTheme.colors.background,
   },
   title: {
     ...AppTheme.typography.headlineLarge,
-    color: AppTheme.colors.onBackground,
     marginBottom: AppTheme.spacing.sm,
     marginTop: AppTheme.spacing.xl,
   },
   welcome: {
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurfaceVariant,
     marginBottom: AppTheme.spacing.xl,
   },
   card: {
-    backgroundColor: AppTheme.colors.surface,
     borderRadius: AppTheme.borderRadius.lg,
     padding: AppTheme.spacing.md,
     marginBottom: AppTheme.spacing.xl,
     borderWidth: 1,
-    borderColor: AppTheme.colors.outline,
   },
   row: {
     flexDirection: 'row',
@@ -84,21 +85,17 @@ const styles = StyleSheet.create({
   },
   label: {
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurface,
   },
   value: {
     ...AppTheme.typography.bodyMedium,
-    color: AppTheme.colors.onSurfaceVariant,
   },
   logoutButton: {
     borderWidth: 1,
-    borderColor: AppTheme.colors.error,
     borderRadius: AppTheme.borderRadius.md,
     padding: AppTheme.spacing.md,
     alignItems: 'center',
   },
   logoutButtonText: {
     ...AppTheme.typography.labelLarge,
-    color: AppTheme.colors.error,
   },
 })

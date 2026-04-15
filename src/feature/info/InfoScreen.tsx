@@ -1,4 +1,4 @@
-import { AppTheme } from '@/core/ui/theme'
+import { AppTheme, useAppColors } from '@/core/ui/theme'
 import { StyleSheet, Text, View } from 'react-native'
 
 const INFO_ITEMS = [
@@ -11,18 +11,20 @@ const INFO_ITEMS = [
 ] as const
 
 export function InfoScreen() {
+  const colors = useAppColors()
+
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>React Native Showcase</Text>
-      <Text style={styles.description}>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.title, { color: colors.onBackground }]}>React Native Showcase</Text>
+      <Text style={[styles.description, { color: colors.onSurfaceVariant }]}>
         This app demonstrates React Native architecture patterns including Expo Router, Zustand
         state management, and various UI feedback mechanisms.
       </Text>
-      <View style={styles.card}>
+      <View style={[styles.card, { backgroundColor: colors.surface, borderColor: colors.outline }]}>
         {INFO_ITEMS.map((item) => (
           <View key={item.label} style={styles.row}>
-            <Text style={styles.label}>{item.label}</Text>
-            <Text style={styles.value}>{item.value}</Text>
+            <Text style={[styles.label, { color: colors.onSurface }]}>{item.label}</Text>
+            <Text style={[styles.value, { color: colors.onSurfaceVariant }]}>{item.value}</Text>
           </View>
         ))}
       </View>
@@ -34,26 +36,21 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: AppTheme.spacing.lg,
-    backgroundColor: AppTheme.colors.background,
   },
   title: {
     ...AppTheme.typography.headlineLarge,
-    color: AppTheme.colors.onBackground,
     marginBottom: AppTheme.spacing.md,
     marginTop: AppTheme.spacing.xl,
   },
   description: {
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurfaceVariant,
     marginBottom: AppTheme.spacing.xl,
     lineHeight: 24,
   },
   card: {
-    backgroundColor: AppTheme.colors.surface,
     borderRadius: AppTheme.borderRadius.lg,
     padding: AppTheme.spacing.md,
     borderWidth: 1,
-    borderColor: AppTheme.colors.outline,
   },
   row: {
     flexDirection: 'row',
@@ -63,11 +60,9 @@ const styles = StyleSheet.create({
   },
   label: {
     ...AppTheme.typography.bodyLarge,
-    color: AppTheme.colors.onSurface,
     fontWeight: '600',
   },
   value: {
     ...AppTheme.typography.bodyMedium,
-    color: AppTheme.colors.onSurfaceVariant,
   },
 })
