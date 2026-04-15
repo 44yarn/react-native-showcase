@@ -9,6 +9,9 @@ export default function MainLayout() {
       screenOptions={{
         headerStyle: { backgroundColor: colors.surface },
         headerTintColor: colors.onSurface,
+        contentStyle: { backgroundColor: colors.background },
+        animation: 'slide_from_right',
+        animationDuration: 200,
       }}
     />
   )
