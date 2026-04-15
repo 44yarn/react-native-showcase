@@ -21,14 +21,14 @@ type HomeActions = {
 
 export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
   savedEmail: undefined,
-  isRememberEmail: false,
+  isRememberEmail: true,
   effect: undefined,
 
   init: async () => {
     const savedEmail = await preferenceStorage.getOrNull<string>(PreferenceKey.Auth.SavedEmail)
     const isRememberEmail = await preferenceStorage.getOrDefault(
       PreferenceKey.Auth.RememberEmail,
-      false,
+      true,
     )
     set({ savedEmail: savedEmail ?? undefined, isRememberEmail })
 

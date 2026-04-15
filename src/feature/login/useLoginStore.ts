@@ -72,7 +72,7 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     if (result.ok) {
       const rememberEmail = await preferenceStorage.getOrDefault(
         PreferenceKey.Auth.RememberEmail,
-        false,
+        true,
       )
       if (rememberEmail) {
         await preferenceStorage.put(PreferenceKey.Auth.SavedEmail, email)

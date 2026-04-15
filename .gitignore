@@ -43,3 +43,5 @@ yarn-error.*
 # Claude Code
 .claude/project-context.md
 .claude/settings.local.json
+.tasks/
+.specs/
