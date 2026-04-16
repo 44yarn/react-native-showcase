@@ -29,16 +29,17 @@ Put those in `.claude/project-context.md` (gitignored).
 ```
 app/                         Expo Router (routing only)
 ├── (auth)/login.tsx         Login route + Effect consumer
-├── (main)/home.tsx          Home route
+├── (main)/home.tsx          Home route + BackHandler
 ├── (main)/info.tsx          Info route
 src/
 ├── core/
 │   ├── foundation/          Result<T>, utility types
-│   ├── ui/                  Theme tokens, shared components
-│   └── data/                Repositories
+│   ├── ui/                  Theme, DialogPresenter, SnackbarPresenter, IndicatorState
+│   ├── i18n/                Internationalization (en/ja)
+│   └── data/                Repositories, PreferenceStorage, SessionStore
 ├── feature/
 │   ├── login/               LoginScreen + useLoginStore
-│   ├── home/                HomeScreen
+│   ├── home/                HomeScreen + useHomeStore
 │   └── info/                InfoScreen
 ```
 
@@ -46,11 +47,15 @@ Dependencies flow: `app/ → feature/* → core/*`. Features never import each o
 
 ### Key Patterns
 
-- **Store (Zustand)**: 1 screen = 1 store. Combines UiState and Actions in a single `create()`.
+- **Store (Zustand)**: 1 screen = 1 store. Combines State and Actions in a single `create()`.
 - **Effect**: Store emits effects; `app/` route files consume them for navigation.
 - **Result\<T\>**: `runCatching()` wraps async calls. Repositories return `Result<T>`, stores never use try-catch directly.
-- **Theme**: `AppTheme` tokens in `core/ui/theme.ts`. No magic numbers in styles.
-- **StyleSheet.create**: Standard React Native styling. Inline styles only for dynamic values.
+- **DialogPresenter**: Promise-based dialog with `requestDialog()`. Store awaits result, UI renders via `ShowcaseAlertDialog`.
+- **SnackbarPresenter**: Auto-dismiss snackbar (3s). `SnackbarView` renders with slide animation.
+- **IndicatorState**: Global loading state with `startLoading()` / `stopLoading()`. Cancellable via `AbortController`.
+- **Theme**: `AppTheme` tokens + `useAppColors()` for dark mode. No magic numbers in styles.
+- **i18n**: `expo-localization` + `i18n-js`. All UI strings via `t('key')`.
+- **StyleSheet.create**: Standard React Native styling. Colors via `useAppColors()` inline style for dark mode.
 
 ## Code Style
 
