@@ -1,5 +1,4 @@
 import { t } from '@/core/i18n'
-import { ShowcaseAlertDialog } from '@/core/ui/ShowcaseAlertDialog'
 import { useIndicatorState } from '@/core/ui/indicatorState'
 import { AppTheme, useAppColors } from '@/core/ui/theme'
 import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons'
@@ -88,7 +87,7 @@ export function LoginScreen() {
           { backgroundColor: colors.primary },
           !isLoginEnabled && styles.buttonDisabled,
         ]}
-        onPress={submit}
+        onPress={() => submit()}
         disabled={!isLoginEnabled}
       >
         <Text style={[styles.primaryButtonText, { color: colors.onPrimary }]}>
@@ -141,8 +140,6 @@ export function LoginScreen() {
       {isLoading && (
         <ActivityIndicator style={styles.indicator} size="large" color={colors.primary} />
       )}
-
-      <ShowcaseAlertDialog />
     </View>
   )
 }

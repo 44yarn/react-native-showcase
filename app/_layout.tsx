@@ -1,3 +1,4 @@
+import { ShowcaseAlertDialog } from '@/core/ui/ShowcaseAlertDialog'
 import { useAppColors } from '@/core/ui/theme'
 import { Stack } from 'expo-router'
 import * as SystemUI from 'expo-system-ui'
@@ -11,16 +12,19 @@ export default function RootLayout() {
   }, [colors.background])
 
   return (
-    <Stack
-      screenOptions={{
-        headerShown: false,
-        contentStyle: { backgroundColor: colors.background },
-        animation: 'slide_from_right',
-        animationDuration: 200,
-      }}
-    >
-      <Stack.Screen name="(auth)" />
-      <Stack.Screen name="(main)" />
-    </Stack>
+    <>
+      <Stack
+        screenOptions={{
+          headerShown: false,
+          contentStyle: { backgroundColor: colors.background },
+          animation: 'slide_from_right',
+          animationDuration: 200,
+        }}
+      >
+        <Stack.Screen name="(auth)" />
+        <Stack.Screen name="(main)" />
+      </Stack>
+      <ShowcaseAlertDialog />
+    </>
   )
 }
