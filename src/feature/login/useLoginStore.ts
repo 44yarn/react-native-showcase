@@ -30,8 +30,8 @@ type LoginActions = {
   updatePassword: (password: string) => void
   togglePasswordVisibility: () => void
   setRandomEmail: () => void
-  setDemoFailure: () => void
-  submit: () => Promise<void>
+  setDemoFailure: () => Promise<void>
+  submit: (overridePassword?: string) => Promise<void>
   cancelLogin: () => void
   navigateToInfo: () => void
   consumeEffect: () => void
@@ -53,6 +53,8 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     if (get()._initialized) return
     set({ _initialized: true })
     const savedEmail = await preferenceStorage.getOrNull<string>(PreferenceKey.Auth.SavedEmail)
+    // reset() が await 中に呼ばれた場合はスキップ
+    if (!get()._initialized) return
     if (savedEmail) {
       set({ email: savedEmail, isLoginEnabled: computeLoginEnabled(savedEmail, get().password) })
     }
@@ -71,11 +73,9 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     set({ email: random, isLoginEnabled: computeLoginEnabled(random, get().password) })
   },
 
+  // Demo: state を汚染せず ERROR_PASSWORD を直接渡して失敗を再現
   setDemoFailure: async () => {
-    const previousPassword = get().password
-    set({ password: ERROR_PASSWORD })
-    await get().submit()
-    set({ password: previousPassword })
+    await get().submit(ERROR_PASSWORD)
   },
 
   navigateToInfo: () => {
@@ -83,9 +83,11 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
   },
 
   consumeEffect: () => set({ effect: undefined }),
+
   reset: () => {
     abortController?.abort()
     abortController = undefined
+    useIndicatorState.getState().stopLoading()
     set({
       _initialized: false,
       email: 'demo@example.com',
@@ -101,11 +103,14 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     abortController?.abort()
     abortController = undefined
     useIndicatorState.getState().stopLoading()
+    set({ isLoginEnabled: computeLoginEnabled(get().email, get().password) })
   },
 
-  submit: async () => {
-    set({ error: undefined })
-    const { email, password } = get()
+  submit: async (overridePassword?: string) => {
+    // 二重送信防止: submit 開始時に無効化
+    set({ error: undefined, isLoginEnabled: false })
+    const { email } = get()
+    const password = overridePassword ?? get().password
 
     abortController = new AbortController()
     const { signal } = abortController
@@ -133,6 +138,7 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
         positiveButton: t('login.guestLogin'),
         negativeButton: t('login.cancel'),
       })
+      if (signal.aborted) return
       if (dialogResult === 'positive') {
         useSessionStore.getState().setSession('Guest', true)
         set({ effect: { type: 'navigateToHome' } })
@@ -140,5 +146,7 @@ export const useLoginStore = create<LoginState & LoginActions>((set, get) => ({
     }
 
     abortController = undefined
+    // 送信完了後に isLoginEnabled を再計算して復元
+    set({ isLoginEnabled: computeLoginEnabled(get().email, get().password) })
   },
 }))
