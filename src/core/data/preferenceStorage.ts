@@ -8,9 +8,13 @@ export const PreferenceKey = {
 } as const
 
 export async function getOrNull<T>(key: string): Promise<T | undefined> {
-  const raw = await SecureStore.getItemAsync(key)
-  if (raw === null) return undefined
-  return JSON.parse(raw) as T
+  try {
+    const raw = await SecureStore.getItemAsync(key)
+    if (raw === null) return undefined
+    return JSON.parse(raw) as T
+  } catch {
+    return undefined
+  }
 }
 
 export async function getOrDefault<T>(key: string, defaultValue: T): Promise<T> {
@@ -19,11 +23,19 @@ export async function getOrDefault<T>(key: string, defaultValue: T): Promise<T> 
 }
 
 export async function put<T>(key: string, value: T): Promise<void> {
-  await SecureStore.setItemAsync(key, JSON.stringify(value))
+  try {
+    await SecureStore.setItemAsync(key, JSON.stringify(value))
+  } catch {
+    // ストレージ書き込み失敗はベストエフォートで無視する
+  }
 }
 
 export async function remove(key: string): Promise<void> {
-  await SecureStore.deleteItemAsync(key)
+  try {
+    await SecureStore.deleteItemAsync(key)
+  } catch {
+    // ストレージ削除失敗はベストエフォートで無視する
+  }
 }
 
 export const preferenceStorage = { getOrNull, getOrDefault, put, remove }
