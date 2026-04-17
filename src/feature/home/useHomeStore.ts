@@ -39,7 +39,7 @@ export const useHomeStore = create<HomeState & HomeActions>((set, get) => ({
       PreferenceKey.Auth.RememberEmail,
       true,
     )
-    set({ savedEmail: savedEmail ?? undefined, isRememberEmail })
+    set({ savedEmail, isRememberEmail })
   },
 
   toggleRememberEmail: async () => {
