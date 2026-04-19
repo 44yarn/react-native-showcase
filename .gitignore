@@ -42,8 +42,8 @@ yarn-error.*
 /ios
 /android
 
-# Claude Code
-.claude/project-context.md
-.claude/settings.local.json
+# Claude Code 個人設定（非公開）
+.claude/
+CLAUDE.local.md
 .tasks/
 .specs/
