@@ -47,3 +47,4 @@ yarn-error.*
 CLAUDE.local.md
 .tasks/
 .specs/
+.mcp.json
