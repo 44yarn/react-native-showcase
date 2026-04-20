@@ -48,3 +48,5 @@ CLAUDE.local.md
 .tasks/
 .specs/
 .mcp.json
+.serena
+docs
