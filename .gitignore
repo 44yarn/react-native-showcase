@@ -49,4 +49,7 @@ CLAUDE.local.md
 .specs/
 .mcp.json
 .serena
-docs
+doc
+
+.gwtconfig
+docs/
