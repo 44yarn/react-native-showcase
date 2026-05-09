@@ -23,11 +23,6 @@ expo-env.d.ts
 # Metro
 .metro-health-check*
 
-# debug
-npm-debug.*
-yarn-debug.*
-yarn-error.*
-
 # macOS
 .DS_Store
 *.pem
@@ -49,4 +44,7 @@ CLAUDE.local.md
 .specs/
 .mcp.json
 .serena
-docs
+doc
+
+.gwtconfig
+docs/
