@@ -146,18 +146,19 @@ StrictMode やルート再マウントで store の `init()` が複数回呼ば�
 ## ビルド
 
 ```bash
-npm install                  # 依存パッケージのインストール
-npm start                    # Expo 開発サーバー起動
-npm run ios                  # iOS シミュレータで実行
-npm run android              # Android エミュレータで実行
-npm run web                  # ブラウザで実行
-npm run lint                 # Biome による lint
-npm run format               # Biome による自動フォーマット
+bun install                  # 依存パッケージのインストール
+bun run start                # Expo 開発サーバー起動
+bun run ios                  # iOS シミュレータで実行
+bun run android              # Android エミュレータで実行
+bun run web                  # ブラウザで実行
+bun run lint                 # Biome による lint
+bun run format               # Biome による自動フォーマット
 ```
 
 ### 動作要件
 
 - Node.js 20 以上
+- Bun 1.3 以上
 - Expo Go（端末 or シミュレータ）、またはネイティブビルド環境
 
 ## ライセンス

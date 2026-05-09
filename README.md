@@ -145,18 +145,19 @@ StrictMode and route remounts can call a store's `init()` multiple times. Each s
 ## Build
 
 ```bash
-npm install                  # install dependencies
-npm start                    # start the Expo dev server
-npm run ios                  # run on iOS simulator
-npm run android              # run on Android emulator
-npm run web                  # run in the browser
-npm run lint                 # Biome lint check
-npm run format               # Biome auto-format
+bun install                  # install dependencies
+bun run start                # start the Expo dev server
+bun run ios                  # run on iOS simulator
+bun run android              # run on Android emulator
+bun run web                  # run in the browser
+bun run lint                 # Biome lint check
+bun run format               # Biome auto-format
 ```
 
 ### Requirements
 
 - Node.js 20+
+- Bun 1.3+
 - Expo Go app on a device/simulator, or a native build toolchain
 
 ## License
